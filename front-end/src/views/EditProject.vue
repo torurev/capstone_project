@@ -15,41 +15,48 @@
 </template>
 
 <script>
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2';
 
 export default {
-  props: ["id"],
+  props: ['id'],
   data() {
     return {
-      uri: "http://localhost:3000/projects/" + this.id,
-      title: "",
-      details: "",
+      title: '',
+      details: '',
       assignee: null,
       staffs: [],
     };
   },
   mounted() {
-    fetch(this.uri)
-      .then((res) => res.json())
-      .then((data) => {
-        this.title = data.title;
-        this.details = data.details;
-        this.assignee = data.assignee;
-      })
-      .catch((err) => console.log(err));
-
-    fetch("http://localhost:3000/staffs")
-      .then((res) => res.json())
-      .then((data) => {
-        this.staffs = data;
-      })
-      .catch((err) => console.log(err));
+    this.fetchProject();
+    this.fetchStaffs();
   },
   methods: {
+    fetchProject() {
+      fetch(`http://localhost:3000/projects/${this.id}`)
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+          }
+          return res.json();
+        })
+        .then((data) => {
+          this.title = data.title;
+          this.details = data.details;
+          this.assignee = data.assignee;
+        })
+        .catch((err) => console.error('Error fetching project:', err));
+    },
+    fetchStaffs() {
+      fetch('http://localhost:3000/staffs')
+        .then((res) => res.json())
+        .then((data) => (this.staffs = data))
+        .catch((err) => console.error('Error fetching staffs:', err));
+    },
     handleSubmit() {
-      fetch(this.uri, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+      fetch(`http://localhost:3000/projects/${this.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           title: this.title,
           details: this.details,
@@ -58,21 +65,21 @@ export default {
       })
         .then(() => {
           Swal.fire({
-            title: "Success!",
-            text: "Project successfully edited",
-            icon: "success",
-            confirmButtonText: "OK",
+            title: 'Success!',
+            text: 'Project successfully edited',
+            icon: 'success',
+            confirmButtonText: 'OK',
           }).then(() => {
-            this.$router.push("/");
+            this.$router.push('/');
           });
         })
         .catch((err) => {
-          console.log(err);
+          console.error('Error editing project:', err);
           Swal.fire({
-            title: "Error!",
-            text: "Failed to edit project",
-            icon: "error",
-            confirmButtonText: "OK",
+            title: 'Error!',
+            text: 'Failed to edit project',
+            icon: 'error',
+            confirmButtonText: 'OK',
           });
         });
     },

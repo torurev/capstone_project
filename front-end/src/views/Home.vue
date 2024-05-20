@@ -29,27 +29,46 @@ export default {
     };
   },
   mounted() {
-    fetch('http://localhost:3000/projects')
-      .then((res) => res.json())
-      .then((data) => (this.projects = data))
-      .catch((err) => console.log(err));
-
-    fetch('http://localhost:3000/staffs')
-      .then((res) => res.json())
-      .then((data) => (this.staffs = data))
-      .catch((err) => console.log(err));
+    this.fetchProjects();
+    this.fetchStaffs();
   },
   methods: {
+    fetchProjects() {
+      fetch('http://localhost:3000/projects')
+        .then((res) => res.json())
+        .then((data) => (this.projects = data))
+        .catch((err) => console.log(err));
+    },
+    fetchStaffs() {
+      fetch('http://localhost:3000/staffs')
+        .then((res) => res.json())
+        .then((data) => (this.staffs = data))
+        .catch((err) => console.log(err));
+    },
     handleDelete(id) {
-      this.projects = this.projects.filter((project) => {
-        return project.id !== id;
-      });
+      fetch(`http://localhost:3000/projects/${id}`, {
+        method: 'DELETE',
+      })
+        .then(() => {
+          this.projects = this.projects.filter((project) => project.id !== id);
+        })
+        .catch((err) => console.log(err));
     },
     handleComplete(id) {
-      let p = this.projects.find((project) => {
-        return project.id === id;
-      });
-      p.complete = !p.complete;
+      let project = this.projects.find((project) => project.id === id);
+      project.complete = !project.complete;
+
+      fetch(`http://localhost:3000/projects/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ complete: project.complete }),
+      })
+        .then(() => {
+          this.fetchProjects(); // Refresh the list
+        })
+        .catch((err) => console.log(err));
     },
   },
   computed: {

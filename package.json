@@ -1,0 +1,12 @@
+{
+  "name": "devops-project-planner",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "concurrently \"npm run start-backend\" \"npm run start-frontend\"",
+    "start-backend": "cd back-end && npm start",
+    "start-frontend": "cd front-end && npm run serve"
+  },
+  "devDependencies": {
+    "concurrently": "^7.2.1"
+  }
+}

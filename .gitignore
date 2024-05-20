@@ -1,0 +1,19 @@
+## DevOps Project Planner
+# Node.js
+/node_modules
+
+# Node.js
+/back-end/node_modules
+
+# Compiled output
+/back-end/dist
+
+# Dependency directories
+/front-end/node_modules/
+
+# Production build directory
+/front-end/dist/
+/front-end/build/
+
+# Optional npm cache directory
+/front-end/.npm

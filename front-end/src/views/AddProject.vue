@@ -41,7 +41,6 @@ export default {
         details: this.details,
         assignee: this.assignee, // Include assignee ID
         complete: false,
-        id: Math.floor(Math.random() * 10000).toString(),
       };
 
       fetch('http://localhost:3000/projects', {
