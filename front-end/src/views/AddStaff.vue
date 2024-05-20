@@ -9,13 +9,13 @@
 </template>
 
 <script>
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2';
 
 export default {
   data() {
     return {
-      name: "",
-      position: "",
+      name: '',
+      position: '',
     };
   },
   methods: {
@@ -23,13 +23,11 @@ export default {
       let staff = {
         name: this.name,
         position: this.position,
-        id: Math.floor(Math.random() * 10000).toString(),
       };
-      console.log(staff);
 
-      fetch("http://localhost:3000/staffs", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      fetch('http://localhost:3000/staffs', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(staff),
       })
         .then((response) => {
@@ -40,21 +38,21 @@ export default {
         })
         .then((data) => {
           Swal.fire({
-            title: "Success!",
-            text: "staff successfully created",
-            icon: "success",
-            confirmButtonText: "OK",
+            title: 'Success!',
+            text: 'Staff successfully created',
+            icon: 'success',
+            confirmButtonText: 'OK',
           }).then(() => {
-            this.$router.push("/staff");
+            this.$router.push('/staff');
           });
         })
         .catch((err) => {
           console.log(err);
           Swal.fire({
-            title: "Error!",
-            text: "There was an issue creating the staff",
-            icon: "error",
-            confirmButtonText: "OK",
+            title: 'Error!',
+            text: 'There was an issue creating the staff',
+            icon: 'error',
+            confirmButtonText: 'OK',
           });
         });
     },

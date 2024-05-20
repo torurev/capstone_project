@@ -23,10 +23,10 @@
 </template>
 
 <script>
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2';
 
 export default {
-  props: ["staff"],
+  props: ['staff'],
   data() {
     return {
       showDetails: false,
@@ -41,22 +41,20 @@ export default {
       }
     },
     fetchAssignedProjects() {
-      fetch("http://localhost:3000/projects")
+      fetch('http://localhost:3000/projects')
         .then((response) => response.json())
         .then((projects) => {
-          this.assignedProjects = projects.filter(
-            (project) => project.assignee === this.staff.id.toString()
-          );
+          this.assignedProjects = projects.filter((project) => project.assignee === this.staff.id);
         })
-        .catch((err) => console.error("Error fetching projects:", err));
+        .catch((err) => console.error('Error fetching projects:', err));
     },
     confirmDelete() {
       Swal.fire({
         title: `Are you sure you want to delete ${this.staff.name}?`,
-        icon: "warning",
+        icon: 'warning',
         showCancelButton: true,
-        confirmButtonText: "Yes, delete it!",
-        cancelButtonText: "No, cancel!",
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, cancel!',
         reverseButtons: true,
       }).then((result) => {
         if (result.isConfirmed) {
@@ -66,17 +64,13 @@ export default {
     },
     deleteStaff() {
       fetch(`http://localhost:3000/staffs/${this.staff.id}`, {
-        method: "DELETE",
+        method: 'DELETE',
       })
         .then(() => {
-          Swal.fire(
-            "Deleted!",
-            `${this.staff.name} has been deleted.`,
-            "success"
-          );
-          this.$emit("delete", this.staff.id);
+          Swal.fire('Deleted!', `${this.staff.name} has been deleted.`, 'success');
+          this.$emit('delete', this.staff.id);
         })
-        .catch((err) => console.error("Error deleting staff:", err));
+        .catch((err) => console.error('Error deleting staff:', err));
     },
   },
 };

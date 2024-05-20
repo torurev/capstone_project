@@ -9,41 +9,48 @@
 </template>
 
 <script>
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2';
 
 export default {
-  props: ["id"],
+  props: ['id'],
   data() {
     return {
-      uri: "http://localhost:3000/staffs/" + this.id,
-      name: "",
-      position: "",
+      uri: 'http://localhost:3000/staffs/' + this.id,
+      name: '',
+      position: '',
     };
   },
   mounted() {
     fetch(this.uri)
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+      })
       .then((data) => {
         this.name = data.name;
         this.position = data.position;
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.error('Error fetching staff data:', err);
+      });
   },
   methods: {
     handleSubmit() {
       fetch(this.uri, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: this.name, position: this.position }),
       })
         .then(() => {
           Swal.fire({
-            icon: "success",
-            title: "Staff Updated Successfully!",
+            icon: 'success',
+            title: 'Staff Updated Successfully!',
             showConfirmButton: false,
             timer: 1500,
           });
-          this.$router.push("/staff");
+          this.$router.push('/staff');
         })
         .catch((err) => console.log(err));
     },

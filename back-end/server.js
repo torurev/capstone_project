@@ -10,7 +10,6 @@ app.use(cors());
 let staffs = [
   { id: 1, name: "John Doe", position: "Front-End Developer" },
   { id: 2, name: "Jane Smith", position: "Back-End Developer" },
-  // Add more staff data here
 ];
 
 let projects = [
@@ -30,12 +29,10 @@ let projects = [
     complete: true,
     assignee: 2,
   },
-  // Add more project data here
 ];
 
 // Middleware to log requests
 app.use((req, res, next) => {
-  console.log(`${req.method} ${req.url}`);
   next();
 });
 
@@ -60,6 +57,17 @@ app.get("/projects/:id", (req, res) => {
   }
 });
 
+// Get staff by ID
+app.get("/staffs/:id", (req, res) => {
+  const id = parseInt(req.params.id, 10);
+  const staff = staffs.find((staff) => staff.id === id);
+  if (staff) {
+    res.json(staff);
+  } else {
+    res.status(404).send("Staff not found");
+  }
+});
+
 // Create new staff
 app.post("/staffs", (req, res) => {
   const newStaff = req.body;
@@ -77,7 +85,7 @@ app.post("/projects", (req, res) => {
 });
 
 // Update staff
-app.put("/staffs/:id", (req, res) => {
+app.patch("/staffs/:id", (req, res) => {
   const id = parseInt(req.params.id, 10);
   let staff = staffs.find((staff) => staff.id === id);
   if (staff) {
