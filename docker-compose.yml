@@ -7,6 +7,7 @@ services:
       - "3000:3000"
     volumes:
       - ./back-end:/app
+      - /app/node_modules
 
   frontend:
     build:
@@ -15,5 +16,6 @@ services:
       - "8080:8080"
     volumes:
       - ./front-end:/app
+      - /app/node_modules
     depends_on:
       - backend
