@@ -8,6 +8,8 @@ services:
     volumes:
       - ./back-end:/app:cached
       - /app/node_modules
+    labels:
+      - "prometheus_job=backend"
 
   frontend:
     build:
@@ -19,3 +21,15 @@ services:
       - /app/node_modules
     depends_on:
       - backend
+    labels:
+      - "prometheus_job=frontend"
+
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus:/etc/prometheus
+    ports:
+      - "9091:9090"
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--web.listen-address=:9090"
