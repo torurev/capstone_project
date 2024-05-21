@@ -6,7 +6,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./back-end:/app
+      - ./back-end:/app:cached
       - /app/node_modules
 
   frontend:
@@ -15,7 +15,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./front-end:/app
+      - ./front-end:/app:cached
       - /app/node_modules
     depends_on:
       - backend
