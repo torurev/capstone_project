@@ -32,8 +32,14 @@ const errorRate = new client.Counter({
   help: "Count of errors encountered by the application",
 });
 
+const requestCount = new client.Counter({
+  name: "app_request_count",
+  help: "Total number of requests received",
+});
+
 // Register custom metrics
 client.register.registerMetric(requestDuration);
 client.register.registerMetric(errorRate);
+client.register.registerMetric(requestCount);
 
-module.exports = { router, requestDuration };
+module.exports = { router, requestDuration, errorRate, requestCount };

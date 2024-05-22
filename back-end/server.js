@@ -3,7 +3,12 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const app = express();
 const port = 3000;
-const { router: metricsRouter, requestDuration } = require("./metrics");
+const {
+  router: metricsRouter,
+  requestDuration,
+  errorRate,
+  requestCount,
+} = require("./metrics");
 app.use(bodyParser.json());
 app.use(cors());
 app.use(metricsRouter);
@@ -34,6 +39,7 @@ let projects = [
 // Middleware to log requests and observe request duration
 app.use((req, res, next) => {
   const end = requestDuration.startTimer();
+  requestCount.inc();
   res.on("finish", () => {
     end();
   });
