@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(metricsRouter);
 let staffs = [
-  { id: 1, name: "John Doe", position: "Front-End Developer" },
+  { id: 1, name: "John Dane", position: "Front-End Developer" },
   { id: 2, name: "Jane Smith", position: "Back-End Developer" },
 ];
 
