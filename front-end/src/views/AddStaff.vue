@@ -4,7 +4,7 @@
     <input type="text" v-model="name" required />
     <label>Position</label>
     <input type="text" v-model="position" required />
-    <button>Add Staff</button>
+    <button>Add</button>
   </form>
 </template>
 
